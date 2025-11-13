@@ -2,7 +2,7 @@
  * Quote Builder Component
  * Allows users to create new quotes by selecting packages, modules, and entering truck count
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './QuoteBuilder.css';
@@ -26,12 +26,6 @@ function QuoteBuilder() {
     fetchPackages();
   }, []);
 
-  useEffect(() => {
-    if (selectedPackage) {
-      calculateQuote();
-    }
-  }, [selectedPackage, selectedModules, numberOfTrucks]);
-
   const fetchPackages = async () => {
     try {
       const response = await axios.get('/packages');
@@ -44,7 +38,7 @@ function QuoteBuilder() {
     }
   };
 
-  const calculateQuote = async () => {
+  const calculateQuote = useCallback(async () => {
     if (!selectedPackage) return;
 
     try {
@@ -68,7 +62,13 @@ function QuoteBuilder() {
     } catch (error) {
       console.error('Error calculating quote:', error);
     }
-  };
+  }, [selectedPackage, selectedModules, numberOfTrucks]);
+
+  useEffect(() => {
+    if (selectedPackage) {
+      calculateQuote();
+    }
+  }, [selectedPackage, calculateQuote]);
 
   const handlePackageSelect = (pkg) => {
     setSelectedPackage(pkg);

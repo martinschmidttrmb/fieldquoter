@@ -2,7 +2,7 @@
  * Quote View Component
  * Displays a single quote with details and actions (view, edit, share, export PDF)
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
@@ -21,14 +21,7 @@ function QuoteView() {
   const [managers, setManagers] = useState([]);
   const [selectedManager, setSelectedManager] = useState('');
 
-  useEffect(() => {
-    fetchQuote();
-    if (user.role === 'general') {
-      fetchManagers();
-    }
-  }, [id]);
-
-  const fetchQuote = async () => {
+  const fetchQuote = useCallback(async () => {
     try {
       const response = await axios.get(`/quotes/${id}`);
       setQuote(response.data);
@@ -39,9 +32,9 @@ function QuoteView() {
       alert('Failed to load quote');
       navigate('/quotes');
     }
-  };
+  }, [id, navigate]);
 
-  const fetchManagers = async () => {
+  const fetchManagers = useCallback(async () => {
     try {
       const response = await axios.get('/users');
       const managersList = response.data.filter(u => u.role === 'manager');
@@ -49,7 +42,14 @@ function QuoteView() {
     } catch (error) {
       console.error('Error fetching managers:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchQuote();
+    if (user.role === 'general') {
+      fetchManagers();
+    }
+  }, [fetchQuote, fetchManagers, user.role]);
 
   const handleShare = async () => {
     if (!selectedManager) {
@@ -165,7 +165,6 @@ function QuoteView() {
     return <div>Quote not found</div>;
   }
 
-  const canEdit = quote.status === 'draft' && quote.userId === user.id;
   const canApprove = (user.role === 'admin' || user.role === 'manager') && 
                      quote.status === 'pending_approval';
   const canShare = quote.status === 'draft' && quote.userId === user.id && user.role === 'general';
