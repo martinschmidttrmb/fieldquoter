@@ -1,0 +1,32 @@
+/**
+ * Quote Builder component styles
+ */
+.package-price {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #3498db;
+}
+
+.module-price {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #ddd;
+}
+
+.error-message {
+  background-color: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #fcc;
+}
+

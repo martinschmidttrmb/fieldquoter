@@ -1,0 +1,30 @@
+/**
+ * Users List component styles
+ */
+.users-list {
+  padding: 20px;
+}
+
+.users-header {
+  margin-bottom: 30px;
+}
+
+.admin-note {
+  color: #666;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.no-users {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 8px;
+}
+
+.current-user-badge {
+  color: #666;
+  font-size: 12px;
+  font-style: italic;
+}
+

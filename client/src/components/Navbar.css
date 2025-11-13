@@ -1,0 +1,22 @@
+/**
+ * Navbar component styles
+ */
+.impersonation-badge {
+  background-color: #ffc107;
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.user-name {
+  margin-right: 10px;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
