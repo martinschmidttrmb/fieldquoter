@@ -1,0 +1,17 @@
+# Netlify configuration file
+# This tells Netlify how to build and deploy your React application
+
+[build]
+  # Build command - installs dependencies and builds the React app
+  command = "cd client && npm install && npm run build"
+  
+  # Publish directory - where the built files are located
+  publish = "client/build"
+
+# Redirect rules for Single Page Application (SPA) routing
+# This ensures all routes are handled by index.html for React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
