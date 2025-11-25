@@ -1,6 +1,6 @@
 /**
- * TruckMate Carrier Portal - Main Application
- * Handles login and rate quote functionality via TMS Connector API
+ * Premier Logistics - TruckMate Carrier Portal
+ * Handles homepage, login, and rate quote functionality via TMS Connector API
  */
 
 // API Configuration
@@ -13,8 +13,8 @@ let authToken = null;
 let currentUser = null;
 
 // DOM Elements
-const loginSection = document.getElementById('loginSection');
-const quoteSection = document.getElementById('quoteSection');
+const loginModal = document.getElementById('loginModal');
+const quoteModal = document.getElementById('quoteModal');
 const loginForm = document.getElementById('loginForm');
 const quoteForm = document.getElementById('quoteForm');
 const logoutBtn = document.getElementById('logoutBtn');
@@ -34,18 +34,166 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedToken && savedUser) {
         authToken = savedToken;
         currentUser = JSON.parse(savedUser);
-        showQuoteSection();
+        updateUserUI();
     }
     
     // Set default pickup date to today
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('pickupDate').value = today;
+    const pickupDateInput = document.getElementById('pickupDate');
+    if (pickupDateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        pickupDateInput.value = today;
+    }
     
     // Event Listeners
-    loginForm.addEventListener('submit', handleLogin);
-    quoteForm.addEventListener('submit', handleQuoteSubmit);
-    logoutBtn.addEventListener('click', handleLogout);
+    setupEventListeners();
 });
+
+/**
+ * Setup all event listeners
+ */
+function setupEventListeners() {
+    // Login form
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
+    
+    // Quote form
+    if (quoteForm) {
+        quoteForm.addEventListener('submit', handleQuoteSubmit);
+    }
+    
+    // Logout button
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+    }
+    
+    // Modal close buttons
+    const closeLoginModal = document.getElementById('closeLoginModal');
+    const closeQuoteModal = document.getElementById('closeQuoteModal');
+    
+    if (closeLoginModal) {
+        closeLoginModal.addEventListener('click', () => closeModal(loginModal));
+    }
+    
+    if (closeQuoteModal) {
+        closeQuoteModal.addEventListener('click', () => closeModal(quoteModal));
+    }
+    
+    // Rate Quote buttons
+    const requestQuoteBtn = document.getElementById('requestQuoteBtn');
+    const heroQuoteBtn = document.getElementById('heroQuoteBtn');
+    
+    if (requestQuoteBtn) {
+        requestQuoteBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openRateQuote();
+        });
+    }
+    
+    if (heroQuoteBtn) {
+        heroQuoteBtn.addEventListener('click', () => {
+            openRateQuote();
+        });
+    }
+    
+    // Track shipment button
+    const trackShipmentBtn = document.getElementById('trackShipmentBtn');
+    if (trackShipmentBtn) {
+        trackShipmentBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Track Shipment feature coming soon!');
+        });
+    }
+    
+    // Close modals when clicking outside
+    if (loginModal) {
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                closeModal(loginModal);
+            }
+        });
+    }
+    
+    if (quoteModal) {
+        quoteModal.addEventListener('click', (e) => {
+            if (e.target === quoteModal) {
+                closeModal(quoteModal);
+            }
+        });
+    }
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href !== '#' && href !== '#home') {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+    
+    // Contact form
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            contactForm.reset();
+        });
+    }
+}
+
+/**
+ * Open Rate Quote - checks if user is logged in first
+ */
+function openRateQuote() {
+    if (!authToken) {
+        // User not logged in, show login modal first
+        openModal(loginModal);
+    } else {
+        // User is logged in, show quote modal
+        openModal(quoteModal);
+    }
+}
+
+/**
+ * Open a modal
+ */
+function openModal(modal) {
+    if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+/**
+ * Close a modal
+ */
+function closeModal(modal) {
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+        
+        // Clear form errors
+        if (modal === loginModal) {
+            loginError.style.display = 'none';
+            loginForm.reset();
+        } else if (modal === quoteModal) {
+            quoteError.style.display = 'none';
+            quoteSuccess.style.display = 'none';
+            quoteResults.style.display = 'none';
+        }
+    }
+}
 
 /**
  * Handle Login Form Submission
@@ -76,8 +224,14 @@ async function handleLogin(e) {
             localStorage.setItem('truckmate_token', token);
             localStorage.setItem('truckmate_user', JSON.stringify(currentUser));
             
-            // Show quote section
-            showQuoteSection();
+            // Update UI
+            updateUserUI();
+            
+            // Close login modal and open quote modal
+            closeModal(loginModal);
+            setTimeout(() => {
+                openModal(quoteModal);
+            }, 300);
         } else {
             throw new Error('Authentication failed');
         }
@@ -148,14 +302,17 @@ async function authenticateUser(username, password) {
 }
 
 /**
- * Show Quote Section after successful login
+ * Update user UI elements
  */
-function showQuoteSection() {
-    loginSection.style.display = 'none';
-    quoteSection.style.display = 'block';
-    logoutBtn.style.display = 'block';
-    userInfo.textContent = `Logged in as: ${currentUser?.username || 'User'}`;
-    userInfo.style.display = 'block';
+function updateUserUI() {
+    if (currentUser && userInfo) {
+        userInfo.textContent = `Logged in as: ${currentUser.username}`;
+        userInfo.style.display = 'block';
+    }
+    
+    if (logoutBtn) {
+        logoutBtn.style.display = 'block';
+    }
 }
 
 /**
@@ -167,15 +324,23 @@ function handleLogout() {
     localStorage.removeItem('truckmate_token');
     localStorage.removeItem('truckmate_user');
     
-    loginSection.style.display = 'block';
-    quoteSection.style.display = 'none';
-    logoutBtn.style.display = 'none';
-    userInfo.style.display = 'none';
-    loginForm.reset();
-    quoteForm.reset();
-    quoteResults.style.display = 'none';
-    quoteError.style.display = 'none';
-    quoteSuccess.style.display = 'none';
+    // Update UI
+    if (userInfo) {
+        userInfo.style.display = 'none';
+    }
+    
+    if (logoutBtn) {
+        logoutBtn.style.display = 'none';
+    }
+    
+    // Close any open modals
+    closeModal(loginModal);
+    closeModal(quoteModal);
+    
+    // Reset forms
+    if (loginForm) loginForm.reset();
+    if (quoteForm) quoteForm.reset();
+    if (quoteResults) quoteResults.style.display = 'none';
 }
 
 /**
@@ -206,6 +371,9 @@ async function handleQuoteSubmit(e) {
         displayQuoteResults(result);
         quoteSuccess.textContent = 'Rate quote generated successfully!';
         quoteSuccess.style.display = 'block';
+        
+        // Scroll to results
+        quoteResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         
     } catch (error) {
         console.error('Quote submission error:', error);
@@ -446,4 +614,3 @@ function formatCurrency(value) {
     }
     return isNaN(value) ? '0.00' : value.toFixed(2);
 }
-

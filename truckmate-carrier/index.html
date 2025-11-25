@@ -3,337 +3,495 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TruckMate Carrier Portal - Rate Quotes</title>
+    <title>Premier Logistics - Professional Trucking & Freight Services</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header Navigation -->
     <header class="header">
         <div class="container">
             <div class="logo">
-                <h1>🚛 TruckMate Carrier Portal</h1>
+                <h1>🚛 Premier Logistics</h1>
+                <p class="tagline">Your Trusted Transportation Partner</p>
             </div>
             <nav class="nav">
-                <span id="userInfo" class="user-info" style="display: none;"></span>
-                <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Logout</button>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="rateQuoteDropdown">Rate Quote <span class="arrow">▼</span></a>
+                        <ul class="dropdown-menu" id="rateQuoteMenu">
+                            <li><a href="#" id="requestQuoteBtn">Request Rate Quote</a></li>
+                            <li><a href="#" id="trackShipmentBtn">Track Shipment</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="nav-actions">
+                    <span id="userInfo" class="user-info" style="display: none;"></span>
+                    <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Logout</button>
+                </div>
             </nav>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main">
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
         <div class="container">
-            <!-- Login Section -->
-            <section id="loginSection" class="section">
-                <div class="card">
-                    <h2>Login to TruckMate</h2>
-                    <p class="subtitle">Enter your credentials to access the rate quote system</p>
-                    
-                    <form id="loginForm" class="form">
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input 
-                                type="text" 
-                                id="username" 
-                                name="username" 
-                                required 
-                                placeholder="Enter your username"
-                                autocomplete="username"
-                            >
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input 
-                                type="password" 
-                                id="password" 
-                                name="password" 
-                                required 
-                                placeholder="Enter your password"
-                                autocomplete="current-password"
-                            >
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <span id="loginBtnText">Login</span>
-                            <span id="loginSpinner" class="spinner" style="display: none;"></span>
-                        </button>
-                        
-                        <div id="loginError" class="error-message" style="display: none;"></div>
-                    </form>
+            <div class="hero-content">
+                <h2 class="hero-title">Reliable Freight Solutions Across North America</h2>
+                <p class="hero-subtitle">Professional trucking services with real-time tracking, competitive rates, and exceptional customer service.</p>
+                <div class="hero-cta">
+                    <button class="btn btn-primary btn-large" id="heroQuoteBtn">Get Rate Quote</button>
+                    <button class="btn btn-outline btn-large">Learn More</button>
                 </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
-            <!-- Rate Quote Section -->
-            <section id="quoteSection" class="section" style="display: none;">
-                <div class="card">
-                    <h2>Create Rate Quote</h2>
-                    <p class="subtitle">Enter shipment details to generate a rate quote</p>
-                    
-                    <form id="quoteForm" class="form">
-                        <!-- Pickup Information -->
-                        <div class="form-section">
-                            <h3>Pickup Information</h3>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="pickupName">Pickup Name *</label>
-                                    <input 
-                                        type="text" 
-                                        id="pickupName" 
-                                        name="pickupName" 
-                                        required 
-                                        placeholder="Company or contact name"
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="pickupAddress">Pickup Address *</label>
-                                    <input 
-                                        type="text" 
-                                        id="pickupAddress" 
-                                        name="pickupAddress" 
-                                        required 
-                                        placeholder="Street address"
-                                    >
-                                </div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="pickupCity">City *</label>
-                                    <input 
-                                        type="text" 
-                                        id="pickupCity" 
-                                        name="pickupCity" 
-                                        required 
-                                        placeholder="City"
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="pickupState">State/Province *</label>
-                                    <input 
-                                        type="text" 
-                                        id="pickupState" 
-                                        name="pickupState" 
-                                        required 
-                                        placeholder="State or Province"
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="pickupZip">ZIP/Postal Code *</label>
-                                    <input 
-                                        type="text" 
-                                        id="pickupZip" 
-                                        name="pickupZip" 
-                                        required 
-                                        placeholder="ZIP or Postal Code"
-                                    >
-                                </div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="pickupDate">Pickup Date *</label>
-                                    <input 
-                                        type="date" 
-                                        id="pickupDate" 
-                                        name="pickupDate" 
-                                        required
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="pickupTime">Pickup Time</label>
-                                    <input 
-                                        type="time" 
-                                        id="pickupTime" 
-                                        name="pickupTime"
-                                    >
-                                </div>
-                            </div>
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <p class="section-subtitle">Comprehensive transportation solutions tailored to your needs</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📦</div>
+                    <h3>Full Truckload (FTL)</h3>
+                    <p>Dedicated truckload services for large shipments with guaranteed capacity and faster transit times.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚚</div>
+                    <h3>Less Than Truckload (LTL)</h3>
+                    <p>Cost-effective LTL solutions for smaller shipments, combining multiple loads for efficiency.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🌡️</div>
+                    <h3>Refrigerated Transport</h3>
+                    <p>Temperature-controlled shipping for perishable goods with real-time monitoring.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚡</div>
+                    <h3>Expedited Services</h3>
+                    <p>Time-sensitive deliveries with priority handling and guaranteed delivery windows.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏭</div>
+                    <h3>Dedicated Fleet</h3>
+                    <p>Exclusive use of trucks and drivers for consistent, reliable service on your schedule.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📍</div>
+                    <h3>Real-Time Tracking</h3>
+                    <p>Track your shipments 24/7 with our advanced GPS tracking and notification system.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About Premier Logistics</h2>
+                    <p>With over 20 years of experience in the transportation industry, Premier Logistics has established itself as a trusted partner for businesses across North America. We combine cutting-edge technology with personalized service to deliver exceptional freight solutions.</p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-number">50,000+</div>
+                            <div class="stat-label">Successful Deliveries</div>
                         </div>
-
-                        <!-- Delivery Information -->
-                        <div class="form-section">
-                            <h3>Delivery Information</h3>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="deliveryName">Delivery Name *</label>
-                                    <input 
-                                        type="text" 
-                                        id="deliveryName" 
-                                        name="deliveryName" 
-                                        required 
-                                        placeholder="Company or contact name"
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="deliveryAddress">Delivery Address *</label>
-                                    <input 
-                                        type="text" 
-                                        id="deliveryAddress" 
-                                        name="deliveryAddress" 
-                                        required 
-                                        placeholder="Street address"
-                                    >
-                                </div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="deliveryCity">City *</label>
-                                    <input 
-                                        type="text" 
-                                        id="deliveryCity" 
-                                        name="deliveryCity" 
-                                        required 
-                                        placeholder="City"
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="deliveryState">State/Province *</label>
-                                    <input 
-                                        type="text" 
-                                        id="deliveryState" 
-                                        name="deliveryState" 
-                                        required 
-                                        placeholder="State or Province"
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="deliveryZip">ZIP/Postal Code *</label>
-                                    <input 
-                                        type="text" 
-                                        id="deliveryZip" 
-                                        name="deliveryZip" 
-                                        required 
-                                        placeholder="ZIP or Postal Code"
-                                    >
-                                </div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="deliveryDate">Delivery Date</label>
-                                    <input 
-                                        type="date" 
-                                        id="deliveryDate" 
-                                        name="deliveryDate"
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="deliveryTime">Delivery Time</label>
-                                    <input 
-                                        type="time" 
-                                        id="deliveryTime" 
-                                        name="deliveryTime"
-                                    >
-                                </div>
-                            </div>
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Fleet Vehicles</div>
                         </div>
-
-                        <!-- Shipment Details -->
-                        <div class="form-section">
-                            <h3>Shipment Details</h3>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="weight">Weight (lbs) *</label>
-                                    <input 
-                                        type="number" 
-                                        id="weight" 
-                                        name="weight" 
-                                        required 
-                                        min="0" 
-                                        step="0.01"
-                                        placeholder="0.00"
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="pieces">Number of Pieces</label>
-                                    <input 
-                                        type="number" 
-                                        id="pieces" 
-                                        name="pieces" 
-                                        min="1"
-                                        placeholder="1"
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="commodity">Commodity</label>
-                                    <input 
-                                        type="text" 
-                                        id="commodity" 
-                                        name="commodity" 
-                                        placeholder="Commodity description"
-                                    >
-                                </div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="serviceLevel">Service Level</label>
-                                    <input 
-                                        type="text" 
-                                        id="serviceLevel" 
-                                        name="serviceLevel" 
-                                        placeholder="Service level code"
-                                    >
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="customerRef">Customer Reference</label>
-                                    <input 
-                                        type="text" 
-                                        id="customerRef" 
-                                        name="customerRef" 
-                                        placeholder="Customer reference number"
-                                    >
-                                </div>
-                            </div>
+                        <div class="stat-item">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">On-Time Delivery</div>
                         </div>
-
-                        <!-- Form Actions -->
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary btn-large">
-                                <span id="quoteBtnText">Generate Rate Quote</span>
-                                <span id="quoteSpinner" class="spinner" style="display: none;"></span>
-                            </button>
-                            <button type="reset" class="btn btn-secondary">Clear Form</button>
-                        </div>
-                        
-                        <div id="quoteError" class="error-message" style="display: none;"></div>
-                        <div id="quoteSuccess" class="success-message" style="display: none;"></div>
-                    </form>
-
-                    <!-- Quote Results -->
-                    <div id="quoteResults" class="quote-results" style="display: none;">
-                        <h3>Rate Quote Results</h3>
-                        <div id="quoteResultsContent" class="quote-results-content"></div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
-    </main>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">Ready to ship? Contact us today for a quote</p>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <strong>Phone:</strong>
+                        <p>1-800-PREMIER (1-800-773-6437)</p>
+                    </div>
+                    <div class="contact-item">
+                        <strong>Email:</strong>
+                        <p>info@premierlogistics.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <strong>Hours:</strong>
+                        <p>Monday - Friday: 7:00 AM - 7:00 PM EST<br>Saturday: 8:00 AM - 4:00 PM EST</p>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 TruckMate Carrier Portal. Powered by Trimble Transportation.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Premier Logistics</h3>
+                    <p>Your trusted partner for reliable freight transportation across North America.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">Full Truckload</a></li>
+                        <li><a href="#services">LTL Shipping</a></li>
+                        <li><a href="#services">Refrigerated</a></li>
+                        <li><a href="#services">Expedited</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Premier Logistics. All rights reserved. | Powered by TruckMate</p>
+            </div>
         </div>
     </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" id="closeLoginModal">&times;</span>
+            <h2>Login to TMS Connector</h2>
+            <p class="subtitle">Enter your TruckMate credentials to access rate quotes</p>
+            
+            <form id="loginForm" class="form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        required 
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required 
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                    >
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">
+                    <span id="loginBtnText">Login</span>
+                    <span id="loginSpinner" class="spinner" style="display: none;"></span>
+                </button>
+                
+                <div id="loginError" class="error-message" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rate Quote Modal -->
+    <div id="quoteModal" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <span class="modal-close" id="closeQuoteModal">&times;</span>
+            <h2>Create Rate Quote</h2>
+            <p class="subtitle">Enter shipment details to generate a rate quote</p>
+            
+            <form id="quoteForm" class="form">
+                <!-- Pickup Information -->
+                <div class="form-section">
+                    <h3>Pickup Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupName">Pickup Name *</label>
+                            <input 
+                                type="text" 
+                                id="pickupName" 
+                                name="pickupName" 
+                                required 
+                                placeholder="Company or contact name"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pickupAddress">Pickup Address *</label>
+                            <input 
+                                type="text" 
+                                id="pickupAddress" 
+                                name="pickupAddress" 
+                                required 
+                                placeholder="Street address"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupCity">City *</label>
+                            <input 
+                                type="text" 
+                                id="pickupCity" 
+                                name="pickupCity" 
+                                required 
+                                placeholder="City"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pickupState">State/Province *</label>
+                            <input 
+                                type="text" 
+                                id="pickupState" 
+                                name="pickupState" 
+                                required 
+                                placeholder="State or Province"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pickupZip">ZIP/Postal Code *</label>
+                            <input 
+                                type="text" 
+                                id="pickupZip" 
+                                name="pickupZip" 
+                                required 
+                                placeholder="ZIP or Postal Code"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupDate">Pickup Date *</label>
+                            <input 
+                                type="date" 
+                                id="pickupDate" 
+                                name="pickupDate" 
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pickupTime">Pickup Time</label>
+                            <input 
+                                type="time" 
+                                id="pickupTime" 
+                                name="pickupTime"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Information -->
+                <div class="form-section">
+                    <h3>Delivery Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryName">Delivery Name *</label>
+                            <input 
+                                type="text" 
+                                id="deliveryName" 
+                                name="deliveryName" 
+                                required 
+                                placeholder="Company or contact name"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deliveryAddress">Delivery Address *</label>
+                            <input 
+                                type="text" 
+                                id="deliveryAddress" 
+                                name="deliveryAddress" 
+                                required 
+                                placeholder="Street address"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryCity">City *</label>
+                            <input 
+                                type="text" 
+                                id="deliveryCity" 
+                                name="deliveryCity" 
+                                required 
+                                placeholder="City"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deliveryState">State/Province *</label>
+                            <input 
+                                type="text" 
+                                id="deliveryState" 
+                                name="deliveryState" 
+                                required 
+                                placeholder="State or Province"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deliveryZip">ZIP/Postal Code *</label>
+                            <input 
+                                type="text" 
+                                id="deliveryZip" 
+                                name="deliveryZip" 
+                                required 
+                                placeholder="ZIP or Postal Code"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryDate">Delivery Date</label>
+                            <input 
+                                type="date" 
+                                id="deliveryDate" 
+                                name="deliveryDate"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deliveryTime">Delivery Time</label>
+                            <input 
+                                type="time" 
+                                id="deliveryTime" 
+                                name="deliveryTime"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipment Details -->
+                <div class="form-section">
+                    <h3>Shipment Details</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="weight">Weight (lbs) *</label>
+                            <input 
+                                type="number" 
+                                id="weight" 
+                                name="weight" 
+                                required 
+                                min="0" 
+                                step="0.01"
+                                placeholder="0.00"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pieces">Number of Pieces</label>
+                            <input 
+                                type="number" 
+                                id="pieces" 
+                                name="pieces" 
+                                min="1"
+                                placeholder="1"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="commodity">Commodity</label>
+                            <input 
+                                type="text" 
+                                id="commodity" 
+                                name="commodity" 
+                                placeholder="Commodity description"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="serviceLevel">Service Level</label>
+                            <input 
+                                type="text" 
+                                id="serviceLevel" 
+                                name="serviceLevel" 
+                                placeholder="Service level code"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="customerRef">Customer Reference</label>
+                            <input 
+                                type="text" 
+                                id="customerRef" 
+                                name="customerRef" 
+                                placeholder="Customer reference number"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-large">
+                        <span id="quoteBtnText">Generate Rate Quote</span>
+                        <span id="quoteSpinner" class="spinner" style="display: none;"></span>
+                    </button>
+                    <button type="reset" class="btn btn-secondary">Clear Form</button>
+                </div>
+                
+                <div id="quoteError" class="error-message" style="display: none;"></div>
+                <div id="quoteSuccess" class="success-message" style="display: none;"></div>
+            </form>
+
+            <!-- Quote Results -->
+            <div id="quoteResults" class="quote-results" style="display: none;">
+                <h3>Rate Quote Results</h3>
+                <div id="quoteResultsContent" class="quote-results-content"></div>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>
 </html>
-
