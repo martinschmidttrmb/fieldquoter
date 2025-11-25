@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruckMate Carrier Portal - Rate Quotes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>🚛 TruckMate Carrier Portal</h1>
+            </div>
+            <nav class="nav">
+                <span id="userInfo" class="user-info" style="display: none;"></span>
+                <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Logout</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Login Section -->
+            <section id="loginSection" class="section">
+                <div class="card">
+                    <h2>Login to TruckMate</h2>
+                    <p class="subtitle">Enter your credentials to access the rate quote system</p>
+                    
+                    <form id="loginForm" class="form">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username" 
+                                required 
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                required 
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                            >
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <span id="loginBtnText">Login</span>
+                            <span id="loginSpinner" class="spinner" style="display: none;"></span>
+                        </button>
+                        
+                        <div id="loginError" class="error-message" style="display: none;"></div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Rate Quote Section -->
+            <section id="quoteSection" class="section" style="display: none;">
+                <div class="card">
+                    <h2>Create Rate Quote</h2>
+                    <p class="subtitle">Enter shipment details to generate a rate quote</p>
+                    
+                    <form id="quoteForm" class="form">
+                        <!-- Pickup Information -->
+                        <div class="form-section">
+                            <h3>Pickup Information</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="pickupName">Pickup Name *</label>
+                                    <input 
+                                        type="text" 
+                                        id="pickupName" 
+                                        name="pickupName" 
+                                        required 
+                                        placeholder="Company or contact name"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="pickupAddress">Pickup Address *</label>
+                                    <input 
+                                        type="text" 
+                                        id="pickupAddress" 
+                                        name="pickupAddress" 
+                                        required 
+                                        placeholder="Street address"
+                                    >
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="pickupCity">City *</label>
+                                    <input 
+                                        type="text" 
+                                        id="pickupCity" 
+                                        name="pickupCity" 
+                                        required 
+                                        placeholder="City"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="pickupState">State/Province *</label>
+                                    <input 
+                                        type="text" 
+                                        id="pickupState" 
+                                        name="pickupState" 
+                                        required 
+                                        placeholder="State or Province"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="pickupZip">ZIP/Postal Code *</label>
+                                    <input 
+                                        type="text" 
+                                        id="pickupZip" 
+                                        name="pickupZip" 
+                                        required 
+                                        placeholder="ZIP or Postal Code"
+                                    >
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="pickupDate">Pickup Date *</label>
+                                    <input 
+                                        type="date" 
+                                        id="pickupDate" 
+                                        name="pickupDate" 
+                                        required
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="pickupTime">Pickup Time</label>
+                                    <input 
+                                        type="time" 
+                                        id="pickupTime" 
+                                        name="pickupTime"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Information -->
+                        <div class="form-section">
+                            <h3>Delivery Information</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="deliveryName">Delivery Name *</label>
+                                    <input 
+                                        type="text" 
+                                        id="deliveryName" 
+                                        name="deliveryName" 
+                                        required 
+                                        placeholder="Company or contact name"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="deliveryAddress">Delivery Address *</label>
+                                    <input 
+                                        type="text" 
+                                        id="deliveryAddress" 
+                                        name="deliveryAddress" 
+                                        required 
+                                        placeholder="Street address"
+                                    >
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="deliveryCity">City *</label>
+                                    <input 
+                                        type="text" 
+                                        id="deliveryCity" 
+                                        name="deliveryCity" 
+                                        required 
+                                        placeholder="City"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="deliveryState">State/Province *</label>
+                                    <input 
+                                        type="text" 
+                                        id="deliveryState" 
+                                        name="deliveryState" 
+                                        required 
+                                        placeholder="State or Province"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="deliveryZip">ZIP/Postal Code *</label>
+                                    <input 
+                                        type="text" 
+                                        id="deliveryZip" 
+                                        name="deliveryZip" 
+                                        required 
+                                        placeholder="ZIP or Postal Code"
+                                    >
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="deliveryDate">Delivery Date</label>
+                                    <input 
+                                        type="date" 
+                                        id="deliveryDate" 
+                                        name="deliveryDate"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="deliveryTime">Delivery Time</label>
+                                    <input 
+                                        type="time" 
+                                        id="deliveryTime" 
+                                        name="deliveryTime"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipment Details -->
+                        <div class="form-section">
+                            <h3>Shipment Details</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="weight">Weight (lbs) *</label>
+                                    <input 
+                                        type="number" 
+                                        id="weight" 
+                                        name="weight" 
+                                        required 
+                                        min="0" 
+                                        step="0.01"
+                                        placeholder="0.00"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="pieces">Number of Pieces</label>
+                                    <input 
+                                        type="number" 
+                                        id="pieces" 
+                                        name="pieces" 
+                                        min="1"
+                                        placeholder="1"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="commodity">Commodity</label>
+                                    <input 
+                                        type="text" 
+                                        id="commodity" 
+                                        name="commodity" 
+                                        placeholder="Commodity description"
+                                    >
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="serviceLevel">Service Level</label>
+                                    <input 
+                                        type="text" 
+                                        id="serviceLevel" 
+                                        name="serviceLevel" 
+                                        placeholder="Service level code"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="customerRef">Customer Reference</label>
+                                    <input 
+                                        type="text" 
+                                        id="customerRef" 
+                                        name="customerRef" 
+                                        placeholder="Customer reference number"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <span id="quoteBtnText">Generate Rate Quote</span>
+                                <span id="quoteSpinner" class="spinner" style="display: none;"></span>
+                            </button>
+                            <button type="reset" class="btn btn-secondary">Clear Form</button>
+                        </div>
+                        
+                        <div id="quoteError" class="error-message" style="display: none;"></div>
+                        <div id="quoteSuccess" class="success-message" style="display: none;"></div>
+                    </form>
+
+                    <!-- Quote Results -->
+                    <div id="quoteResults" class="quote-results" style="display: none;">
+                        <h3>Rate Quote Results</h3>
+                        <div id="quoteResultsContent" class="quote-results-content"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TruckMate Carrier Portal. Powered by Trimble Transportation.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
